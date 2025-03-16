@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📂 Inflearn Supabase Dropbox Clone
 
-## Getting Started
+Next.js 14을 활용한 **Dropbox 클론 애플리케이션**  
+Supabase를 이용해 파일 업로드, 삭제, 조회 기능을 구현함.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 **기술 스택**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **Frontend**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js 14** 🔹 _Server Actions 활용_
+- **[Material Tailwind CSS](https://www.material-tailwind.com/)** 🔹 _UI 및 스타일링_
+- **TypeScript** 🔹 _안정적인 타입 시스템_
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### **Backend**
 
-## Learn More
+- **Supabase** 🔹 _파일 스토리지 및 데이터 관리_
 
-To learn more about Next.js, take a look at the following resources:
+### **State Management & API**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **React Query** 🔹 _비동기 데이터 관리 및 캐싱_
+- **Next.js Server Actions** 🔹 _서버에서 직접 API 호출_
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📌 **주요 기능**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+✔️ **파일 드래그 & 드롭 업로드 지원**  
+✔️ **업로드된 파일 목록 조회**  
+✔️ **파일 삭제 기능**  
+✔️ **파일 업로드 후 자동으로 최신 목록 반영**  
+✔️ **Supabase Storage 연동**  
+✔️ **반응형 UI 지원**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🎬 **시연 예제 (Demo)**
+
+### ✅ **파일 업로드 & 삭제 시연**
+
+![파일 업로드 & 삭제](./assets/dropboxCopy_upload&delete.gif)
+
+### ✅ **파일 검색 & 업데이트 시연**
+
+![파일 검색 & 업데이트](./assets/dropboxCopy_search&update.gif)
+
+---
