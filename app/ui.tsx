@@ -21,7 +21,7 @@ export default function UI() {
       {/* 파일 드래그엔드롭 */}
       <FileDragDropZone />
       {/* 이미지 리스트 */}
-      <DropboxImageList />
+      <DropboxImageList searchInput={searchInput} />
     </main>
   );
 }
