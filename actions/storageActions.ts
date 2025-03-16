@@ -9,37 +9,36 @@ function handleError(error) {
   }
 }
 
-function sanitizeFileName(fileName: string) {
-  return fileName
-    .normalize("NFKD") // 유니코드 정규화
-    .replace(/[^\w.-]/g, "_") // 특수 문자 제거
-    .replace(/\s+/g, "_") // 공백을 `_`로 변경
-    .toLowerCase(); // 소문자로 변환
-}
-
 export async function uploadFile(formData: FormData) {
   const supabase = await createServerSupabaseClient();
-  const file = formData.get("file") as File | null;
 
-  if (!file) {
-    console.error("❌ 업로드할 파일이 없습니다.");
-    throw new Error("파일이 없습니다.");
+  const files = Array.from(formData.entries())
+    .map(([name, file]) => file as File)
+    .filter((file) => file instanceof File && file.name); // undefined 파일 제거;
+
+  // ✅ 파일명 변환 함수 추가 (특수 문자 제거)
+  function sanitizeFileName(fileName: string) {
+    return fileName
+      .normalize("NFC") // 한글 깨짐 방지
+      .replace(/[^a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_.-]/g, "_"); // 특수 문자 제거
   }
 
-  // 파일 이름을 안전한 형식으로 변환
-  const safeFileName = sanitizeFileName(file.name);
-  console.log("✅ 변환된 파일 이름:", safeFileName);
+  const results = await Promise.all(
+    files.map(async (file) => {
+      const safeFileName = sanitizeFileName(file.name);
+      const { data, error } = await supabase.storage
+        .from(process.env.NEXT_PUBLIC_STORAGE_BUCKET)
+        .upload(safeFileName, file, { upsert: true });
 
-  const { data, error } = await supabase.storage
-    .from(process.env.NEXT_PUBLIC_STORAGE_BUCKET!)
-    .upload(safeFileName, file, { upsert: true });
+      if (error) {
+        console.error("❌ Supabase 업로드 실패:", error.message);
+        throw new Error(error.message);
+      }
+      return data;
+    })
+  );
 
-  if (error) {
-    console.error("❌ Supabase 업로드 실패:", error.message);
-    throw new Error(error.message);
-  }
-
-  return data;
+  return results;
 }
 
 /*
@@ -52,6 +51,17 @@ export async function searchFiles(search: string = "") {
   const { data, error } = await supabase.storage
     .from(process.env.NEXT_PUBLIC_STORAGE_BUCKET)
     .list(null, { search });
+  handleError(error);
+
+  return data;
+}
+
+export async function deleteFile(fileName: string) {
+  const supabase = await createServerSupabaseClient();
+  const { data, error } = await supabase.storage
+    .from(process.env.NEXT_PUBLIC_STORAGE_BUCKET)
+    .remove([fileName]);
+
   handleError(error);
 
   return data;
