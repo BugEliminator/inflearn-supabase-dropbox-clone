@@ -23,10 +23,10 @@ export default function FileDragDropZone() {
       const formData = new FormData();
 
       acceptedFiles.forEach((file) => {
-        formData.append(file.name, file);
+        formData.append("files[]", file);
       });
 
-      formData.append("file", File);
+      formData.append("file", acceptedFiles[0]);
       const result = await uploadImageMutation.mutate(formData);
       console.log(result);
     }
